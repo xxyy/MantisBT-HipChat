@@ -19,14 +19,14 @@
  * along with HipChat Integration; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  * or see http://www.gnu.org/licenses/.
- */
+ */ //modified by xxyy 2015-09-24 - remove annoying ping
 
 class HipChatPlugin extends MantisPlugin {
     function register() {
         $this->name = plugin_lang_get( 'title' );
         $this->description = plugin_lang_get( 'description' );
         $this->page = 'config';
-        $this->version = '0.1';
+        $this->version = '0.1-xxyy';
         $this->requires = array(
             'MantisCore' => '>= 1.2.0',
         );
@@ -81,7 +81,7 @@ class HipChatPlugin extends MantisPlugin {
         $project = project_get_name($bug->project_id);
         $url = string_get_bug_view_url_with_fqdn($bug_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $reporter = '@' . user_get_name(auth_get_current_user_id());
+        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id()); //xxyy - removed annoying pings
         $msg = sprintf(plugin_lang_get($event === 'EVENT_REPORT_BUG' ? 'bug_created' : 'bug_updated'), 
             $project, $reporter, $summary, $url
         );
@@ -98,7 +98,7 @@ class HipChatPlugin extends MantisPlugin {
     function bug_deleted($event, $bug_id) {
         $bug = bug_get($bug_id);
         $project = project_get_name($bug->project_id);
-        $reporter = '@' . user_get_name(auth_get_current_user_id());
+        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id());
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
         $msg = sprintf(plugin_lang_get('bug_deleted'), $project, $reporter, $summary);
         $this->notify($msg, $this->get_room($project));
@@ -109,7 +109,7 @@ class HipChatPlugin extends MantisPlugin {
         $url = string_get_bugnote_view_url_with_fqdn($bug_id, $bugnote_id);
         $project = project_get_name($bug->project_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $reporter = '@' . user_get_name(auth_get_current_user_id());
+        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id());
         $note = bugnote_get_text($bugnote_id);
         $msg = sprintf(plugin_lang_get($event === 'EVENT_BUGNOTE_ADD' ? 'bugnote_created' : 'bugnote_updated'), 
             $project, $reporter, $summary, $url, $note
@@ -122,7 +122,7 @@ class HipChatPlugin extends MantisPlugin {
         $project = project_get_name($bug->project_id);
         $url = string_get_bug_view_url_with_fqdn($bug_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $reporter = '@' . user_get_name(auth_get_current_user_id());
+        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id());
         $msg = sprintf(plugin_lang_get('bugnote_deleted'), $project, $reporter, $summary, $url);
         $this->notify($msg, $this->get_room($project));
     }
@@ -135,8 +135,8 @@ class HipChatPlugin extends MantisPlugin {
         $values = array(
             'id' => function($bug) { return sprintf('%s <%s>', $bug->id, string_get_bug_view_url_with_fqdn($bug->id)); },
             'project_id' => function($bug) { return project_get_name($bug->project_id); },
-            'reporter_id' => function($bug) { return '@' . user_get_name($bug->reporter_id); },
-            'handler_id' => function($bug) { return empty($bug->handler_id) ? plugin_lang_get('no_user') : ('@' . user_get_name($bug->handler_id)); },
+            'reporter_id' => function($bug) { return /*'@' .*/ user_get_name($bug->reporter_id); },
+            'handler_id' => function($bug) { return empty($bug->handler_id) ? plugin_lang_get('no_user') : (/*'@' .*/ user_get_name($bug->handler_id)); },
             'duplicate_id' => function($bug) { return sprintf('%s <%s>', $bug->duplicate_id, string_get_bug_view_url_with_fqdn($bug->duplicate_id)); },
             'priority' => function($bug) { return get_enum_element( 'priority', $bug->priority ); },
             'severity' => function($bug) { return get_enum_element( 'severity', $bug->severity ); },
@@ -196,7 +196,7 @@ class HipChatPlugin extends MantisPlugin {
             'room_id' => $room,
             'from' => plugin_config_get('bot_name'),
             'message' => $msg,
-            'message_format' => 'text',
+            'message_format' => 'html',
             'notify' => plugin_config_get('notify'),
             'color' => plugin_config_get('color'),
             'format' => 'json',
