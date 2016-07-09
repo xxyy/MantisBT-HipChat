@@ -28,7 +28,7 @@ class HipChatPlugin extends MantisPlugin {
         $this->page = 'config';
         $this->version = '0.1-xxyy';
         $this->requires = array(
-            'MantisCore' => '>= 1.2.0',
+            'MantisCore' => '1.3.0',
         );
         $this->author = 'Ben Ramsey';
         $this->contact = 'ben@benramsey.com';
@@ -67,8 +67,8 @@ class HipChatPlugin extends MantisPlugin {
 
     function hooks() {
         return array(
-            'EVENT_REPORT_BUG' => 'bug_report_update',
-            'EVENT_UPDATE_BUG' => 'bug_report_update',
+            'EVENT_REPORT_BUG' => 'bug_report',
+            'EVENT_UPDATE_BUG' => 'bug_update',
             'EVENT_BUG_DELETED' => 'bug_deleted',
             'EVENT_BUG_ACTION' => 'bug_action',
             'EVENT_BUGNOTE_ADD' => 'bugnote_add_edit',
@@ -77,7 +77,20 @@ class HipChatPlugin extends MantisPlugin {
         );
     }
 
-    function bug_report_update($event, $bug, $bug_id) {
+    function bug_report($event, $bug, $bug_id) {
+      $this->bug_report_update($event, $bug, $bug_id);
+    }
+
+    function bug_update($event, $bug, $something) {
+      $this->bug_report_update($event, $bug, $bug->bug_text_id);
+    }
+
+    function bug_report_update($event, $bug, $bug_id_sometimes) { //only sometimes the bug id?! xxyy
+        if(!is_numeric($bug_id_sometimes)) {
+          $bug_id = $bug->bug_text_id; //xxyy - 1.3 update
+        } else {
+          $bug_id = $bug_id_sometimes;
+        }
         $project = project_get_name($bug->project_id);
         $url = string_get_bug_view_url_with_fqdn($bug_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));

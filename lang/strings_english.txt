@@ -21,7 +21,7 @@
  * or see http://www.gnu.org/licenses/.
  */
 
-$mantisbt = "<img src='https://bugs.nowak-at.net/favicon.png'>";
+$mantisbt = "<img src='https://bugs.l1t.li/images/favicon.png'>";
 $prefix = $mantisbt . '&nbsp; <b>%2$s</b>';
 $url = '<b><a href="%4$s">%3$s</a></b>';
 $text = '<br>%5$s';
@@ -40,7 +40,7 @@ $s_plugin_HipChat_rooms = 'HipChat Rooms';
 $s_plugin_HipChat_columns = 'HipChat Columns';
 $s_plugin_HipChat_bug_created = "$prefix created $url.";
 $s_plugin_HipChat_bug_updated = "$prefix updated $url.";
-$s_plugin_HipChat_bug_deleted = $prefix.' deleted %2$s.';
+$s_plugin_HipChat_bug_deleted = $prefix.' deleted an issue.';
 $s_plugin_HipChat_bugnote_created = "$prefix commented on $url, saying:$text";
 $s_plugin_HipChat_bugnote_updated = "$prefix edited a comment on $url saying:$text";
 $s_plugin_HipChat_bugnote_deleted = $prefix.'deleted a comment on $url.';
