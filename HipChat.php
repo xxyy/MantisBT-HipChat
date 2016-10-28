@@ -157,14 +157,29 @@ class HipChatPlugin extends MantisPlugin {
     }
 
     function bugnote_add_edit($event, $bug_id, $bugnote_id) {
+        $message_key = $this->find_bugnote_message_key($event, $bug_id, $bugnote_id);
+        $this->send_bugnote_notification($bug_id, $bugnote_id, $message_key);
+    }
+
+    function find_bugnote_message_key($event, $bug_id, $bugnote_id) {
+        return ($event === 'EVENT_BUGNOTE_ADD' ? 'bugnote_created' : 'bugnote_updated') .
+                 (bugnote_is_private($bug_id, $bugnote_id) ? '_private' : '');
+    }
+
+    function bugnote_is_private($bug_id, $bugnote_id) {
+        return bugnote_get_field($bugnote_id, 'view_state') == VS_PRIVATE ||
+                 bug_get($bug_id)->view_state == VS_PRIVATE;
+    }
+
+    function send_bugnote_notification($bug_id, $bugnote_id, $message_key) {
         $bug = bug_get($bug_id);
         $url = string_get_bugnote_view_url_with_fqdn($bug_id, $bugnote_id);
         $project = project_get_name($bug->project_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id());
+        $user_name = user_get_name(auth_get_current_user_id());
         $note = bugnote_get_text($bugnote_id);
-        $msg = sprintf(plugin_lang_get($event === 'EVENT_BUGNOTE_ADD' ? 'bugnote_created' : 'bugnote_updated'), 
-            $project, $reporter, $summary, $url, $note
+        $msg = sprintf(plugin_lang_get($message_key),
+            $project, $user_name, $summary, $url, $note
         );
         $this->notify($msg, $this->get_room($project));
     }
