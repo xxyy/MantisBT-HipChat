@@ -78,19 +78,15 @@ class HipChatPlugin extends MantisPlugin {
     }
 
     function bug_report($event, $bug, $bug_id) {
-      $this->bug_report_update($event, $bug, $bug_id);
+      $this->bug_report_update($event, $bug);
     }
 
     function bug_update($event, $bug, $something) {
-      $this->bug_report_update($event, $bug, $bug->bug_text_id);
+      $this->bug_report_update($event, $bug);
     }
 
-    function bug_report_update($event, $bug, $bug_id_sometimes) { //only sometimes the bug id?! xxyy
-        if(!is_numeric($bug_id_sometimes)) {
-          $bug_id = $bug->bug_text_id; //xxyy - 1.3 update
-        } else {
-          $bug_id = $bug_id_sometimes;
-        }
+    function bug_report_update($event, $bug) {
+        $bug_id = $bug->bug_text_id; //xxyy - 1.3 update
         $project = project_get_name($bug->project_id);
         $url = string_get_bug_view_url_with_fqdn($bug_id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
