@@ -163,7 +163,7 @@ class HipChatPlugin extends MantisPlugin {
 
     function find_bugnote_message_key($event, $bug_id, $bugnote_id) {
         return ($event === 'EVENT_BUGNOTE_ADD' ? 'bugnote_created' : 'bugnote_updated') .
-                 (bugnote_is_private($bug_id, $bugnote_id) ? '_private' : '');
+                 ($this->bugnote_is_private($bug_id, $bugnote_id) ? '_private' : '');
     }
 
     function bugnote_is_private($bug_id, $bugnote_id) {
