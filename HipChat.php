@@ -78,11 +78,11 @@ class HipChatPlugin extends MantisPlugin {
     }
 
     function bug_report($event, $bug, $bug_id) {
-        $this->send_notification($bug, 'bug_created');
+        $this->send_bug_notification($bug, 'bug_created');
     }
 
     function bug_update($event, $initial_bug, $changed_bug) {
-        $this->send_notification($changed_bug, $this->find_message_key($initial_bug, $changed_bug));
+        $this->send_bug_notification($changed_bug, $this->find_message_key($initial_bug, $changed_bug));
     }
 
     function find_message_key($initial_bug, $changed_bug) {
@@ -121,7 +121,7 @@ class HipChatPlugin extends MantisPlugin {
         }
     }
 
-    function send_notification($bug, $message_key) {
+    function send_bug_notification($bug, $message_key) {
         $project = project_get_name($bug->project_id);
         $url = string_get_bug_view_url_with_fqdn($bug->id);
         $summary = HipChatPlugin::clean_summary(bug_format_summary($bug->id, SUMMARY_FIELD));
@@ -153,11 +153,7 @@ class HipChatPlugin extends MantisPlugin {
 
     function bug_deleted($event, $bug_id) {
         $bug = bug_get($bug_id);
-        $project = project_get_name($bug->project_id);
-        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id());
-        $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $msg = sprintf(plugin_lang_get('bug_deleted'), $project, $reporter, $summary);
-        $this->notify($msg, $this->get_room($project));
+        $this->send_bug_notification($bug, 'bug_deleted');
     }
 
     function bugnote_add_edit($event, $bug_id, $bugnote_id) {
