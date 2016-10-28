@@ -89,11 +89,7 @@ class HipChatPlugin extends MantisPlugin {
         $initial_status = $initial_bug->status;
         $new_status = $changed_bug->status;
         if($initial_status == $new_status) {
-            if($initial_bug->handler_id == $changed_bug->handler_id) {
-                return 'bug_updated';
-            } else {
-                return 'bug_assigned';
-            }
+            return $this->find_assignment_message_key($initial_bug, $changed_bug);
         }
         switch($new_status) {
             case FEEDBACK:
@@ -103,13 +99,25 @@ class HipChatPlugin extends MantisPlugin {
             case CONFIRMED:
                 return 'bug_confirmed';
             case ASSIGNED:
-                return 'bug_assigned';
+                return $this->find_assignment_message_key($initial_bug, $changed_bug);
             case RESOLVED:
                 return 'bug_resolved';
             case CLOSED:
                 return 'bug_closed';
             default:
                 return 'bug_updated';
+        }
+    }
+
+    function find_assignment_message_key($initial_bug, $changed_bug)  {
+        if($initial_bug->handler_id == $changed_bug->handler_id) {
+            return $initial_bug->status == $changed_bug->status ? 'bug_updated' : 'bug_assigned';
+        } else if($changed_bug->handler_id == 0) {
+            return 'bug_unassigned';
+        } else if($changed_bug->handler_id == auth_get_current_user_id()) {
+            return 'bug_selfassigned';
+        } else {
+            return 'bug_assigned';
         }
     }
 
