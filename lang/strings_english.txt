@@ -29,7 +29,7 @@ $assignee = '%5$s';
 
 $s_plugin_HipChat_ = '';
 $s_plugin_HipChat_title = 'HipChat Integration';
-$s_plugin_HipChat_description = 'Adds HipChat integration to Mantis.';
+$s_plugin_HipChat_description = 'Adds HipChat integration to Mantis, extended and updated to MantisBT 1.3.x .';
 $s_plugin_HipChat_config = 'Configuration';
 $s_plugin_HipChat_room = 'HipChat Room';
 $s_plugin_HipChat_token = 'HipChat API Token';

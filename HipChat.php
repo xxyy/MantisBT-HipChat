@@ -1,10 +1,11 @@
 <?php
 /**
  * HipChat Integration
- * Copyright (C) 2014 Ben Ramsey (ben@benramsey.com)
+ * Copyright (C) 2015 - 2016 Philipp Nowak (foss@l1t.li)
+ * Copyright (C) 2014        Ben Ramsey    (ben@benramsey.com)
  *
  * Original Source for Slack Integration
- * Copyright (C) 2014 Karim Ratib (karim.ratib@gmail.com)
+ * Copyright (C) 2014        Karim Ratib   (karim.ratib@gmail.com)
  *
  * HipChat Integration is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License 2
@@ -19,20 +20,20 @@
  * along with HipChat Integration; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
  * or see http://www.gnu.org/licenses/.
- */ //modified by xxyy 2015-09-24 - remove annoying ping
+ */
 
 class HipChatPlugin extends MantisPlugin {
     function register() {
         $this->name = plugin_lang_get( 'title' );
         $this->description = plugin_lang_get( 'description' );
         $this->page = 'config';
-        $this->version = '0.1-xxyy';
+        $this->version = '0.2.0';
         $this->requires = array(
             'MantisCore' => '1.3.0',
         );
-        $this->author = 'Ben Ramsey';
-        $this->contact = 'ben@benramsey.com';
-        $this->url = 'http://benramsey.com';
+        $this->author = 'Ben Ramsey, modified by Literallie';
+        $this->contact = 'foss@l1t.li';
+        $this->url = 'https://github.com/xxyy/MantisBT-HipChat/';
     }
 
     function install() {
