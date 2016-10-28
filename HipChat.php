@@ -82,14 +82,20 @@ class HipChatPlugin extends MantisPlugin {
     }
 
     function bug_update($event, $initial_bug, $changed_bug) {
-        $this->send_notification($changed_bug, $this->find_message_key($initial_bug->status, $changed_bug->status));
+        $this->send_notification($changed_bug, $this->find_message_key($initial_bug, $changed_bug));
     }
 
-    function find_message_key($initial_state, $new_state) {
-        if($initial_state == $new_state) {
-            return 'bug_updated';
+    function find_message_key($initial_bug, $changed_bug) {
+        $initial_status = $initial_bug->status;
+        $new_state = $initial_bug->status;
+        if($initial_status == $new_status) {
+            if($initial_bug->handler_id == $changed_bug->handler_id) {
+                return 'bug_updated';
+            } else {
+                return 'bug_assigned';
+            }
         }
-        switch($new_state) {
+        switch($new_status) {
             case FEEDBACK:
                 return 'bug_feedback';
             case ACKNOWLEDGED:
