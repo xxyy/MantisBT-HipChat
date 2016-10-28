@@ -87,7 +87,7 @@ class HipChatPlugin extends MantisPlugin {
 
     function find_message_key($initial_bug, $changed_bug) {
         $initial_status = $initial_bug->status;
-        $new_state = $initial_bug->status;
+        $new_status = $changed_bug->status;
         if($initial_status == $new_status) {
             if($initial_bug->handler_id == $changed_bug->handler_id) {
                 return 'bug_updated';
