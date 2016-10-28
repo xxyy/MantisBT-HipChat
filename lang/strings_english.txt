@@ -25,6 +25,7 @@ $mantisbt = "<img src='https://bugs.l1t.li/images/favicon.png'>";
 $prefix = $mantisbt . '&nbsp; <b>%2$s</b>';
 $url = '<b><a href="%4$s">%3$s</a></b>';
 $text = '<br>%5$s';
+$assignee = '%5$s';
 
 $s_plugin_HipChat_ = '';
 $s_plugin_HipChat_title = 'HipChat Integration';
@@ -38,12 +39,21 @@ $s_plugin_HipChat_color = 'HipChat Color (yellow, red, green, purple, gray, or r
 $s_plugin_HipChat_default_room = 'Default HipChat Room';
 $s_plugin_HipChat_rooms = 'HipChat Rooms';
 $s_plugin_HipChat_columns = 'HipChat Columns';
+
+// HipChat messages
 $s_plugin_HipChat_bug_created = "$prefix created $url.";
 $s_plugin_HipChat_bug_updated = "$prefix updated $url.";
-$s_plugin_HipChat_bug_deleted = $prefix.' deleted an issue.';
+$s_plugin_HipChat_bug_resolved = "$prefix resolved $url.";
+$s_plugin_HipChat_bug_acknowledged = "$prefix changed $url.";
+$s_plugin_HipChat_bug_confirmed = "$prefix changed $url.";
+$s_plugin_HipChat_bug_closed = "$prefix closed $url.";
+$s_plugin_HipChat_bug_feedback = "$prefix requested feedback on $url.";
+$s_plugin_HipChat_bug_assigned = "$prefix assigned $url to $assignee.";
+$s_plugin_HipChat_bug_deleted = "$prefix deleted a ticket.";
 $s_plugin_HipChat_bugnote_created = "$prefix commented on $url, saying:$text";
 $s_plugin_HipChat_bugnote_updated = "$prefix edited a comment on $url saying:$text";
-$s_plugin_HipChat_bugnote_deleted = $prefix.'deleted a comment on $url.';
+$s_plugin_HipChat_bugnote_deleted = "$prefix deleted a comment on $url.";
+$s_plugin_HipChat_bugnote_private = "$prefix modified a comment on ticket $url.";
 $s_plugin_HipChat_no_user = '(no one)';
 $s_plugin_HipChat_unknown_field = '(don\'t know how to render field "%s")';
 

@@ -78,23 +78,56 @@ class HipChatPlugin extends MantisPlugin {
     }
 
     function bug_report($event, $bug, $bug_id) {
-      $this->bug_report_update($event, $bug);
+        $this->send_notification($bug, 'bug_created');
     }
 
-    function bug_update($event, $bug, $something) {
-      $this->bug_report_update($event, $bug);
+    function bug_update($event, $initial_bug, $changed_bug) {
+        $this->send_notification($changed_bug, $this->find_message_key($initial_bug->status, $changed_bug->status));
     }
 
-    function bug_report_update($event, $bug) {
-        $bug_id = $bug->bug_text_id; //xxyy - 1.3 update
+    function find_message_key($initial_state, $new_state) {
+        if($initial_state == $new_state) {
+            return 'bug_updated';
+        }
+        switch($new_state) {
+            case FEEDBACK:
+                return 'bug_feedback';
+            case ACKNOWLEDGED:
+                return 'bug_acknowledged';
+            case CONFIRMED:
+                return 'bug_confirmed';
+            case ASSIGNED:
+                return 'bug_assigned';
+            case RESOLVED:
+                return 'bug_resolved';
+            case CLOSED:
+                return 'bug_closed';
+            default:
+                return 'bug_updated';
+        }
+    }
+
+    function send_notification($bug, $message_key) {
         $project = project_get_name($bug->project_id);
-        $url = string_get_bug_view_url_with_fqdn($bug_id);
-        $summary = HipChatPlugin::clean_summary(bug_format_summary($bug_id, SUMMARY_FIELD));
-        $reporter = /*'@' .*/ user_get_name(auth_get_current_user_id()); //xxyy - removed annoying pings
-        $msg = sprintf(plugin_lang_get($event === 'EVENT_REPORT_BUG' ? 'bug_created' : 'bug_updated'), 
-            $project, $reporter, $summary, $url
+        $url = string_get_bug_view_url_with_fqdn($bug->id);
+        $summary = HipChatPlugin::clean_summary(bug_format_summary($bug->id, SUMMARY_FIELD));
+        $user_name = user_get_name(auth_get_current_user_id());
+        $assignee_name = $this->format_assignee_name($bug);
+        $msg = sprintf(plugin_lang_get($message_key),
+            $project, $user_name, $summary, $url, $assignee_name
         );
         $this->notify($msg, $this->get_room($project));
+    }
+
+    function format_assignee_name($bug) {
+        $assignee_id = $bug->handler_id;
+        if($assignee_id == 0) {
+            return "nobody";
+        } else if($assignee_id == auth_get_current_user_id()) {
+            return "themselves";
+        } else {
+            return user_get_name($assignee_id);
+        }
     }
 
     function bug_action($event, $action, $bug_id) {
