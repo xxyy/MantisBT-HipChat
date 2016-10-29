@@ -1,10 +1,11 @@
 <?php
 /**
  * HipChat Integration
- * Copyright (C) 2014 Ben Ramsey (ben@benramsey.com)
+ * Copyright (C) 2015 - 2016 Philipp Nowak (foss@l1t.li)
+ * Copyright (C) 2014        Ben Ramsey    (ben@benramsey.com)
  *
  * Original Source for Slack Integration
- * Copyright (C) 2014 Karim Ratib (karim.ratib@gmail.com)
+ * Copyright (C) 2014        Karim Ratib   (karim.ratib@gmail.com)
  *
  * HipChat Integration is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License 2
@@ -122,7 +123,7 @@ print_manage_menu( );
           The current value of this option is:<pre><?php var_export(plugin_config_get( 'columns' ))?></pre>
         </p>
       </td>
-    </tr>
+    </tr>-
 
     <tr>
       <td class="center" colspan="3">
