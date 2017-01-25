@@ -29,7 +29,7 @@ class HipChatPlugin extends MantisPlugin {
         $this->page = 'config';
         $this->version = '0.2.0';
         $this->requires = array(
-            'MantisCore' => '1.3.0',
+            'MantisCore' => '2.0.0',
         );
         $this->author = 'Ben Ramsey, modified by Literallie';
         $this->contact = 'foss@l1t.li';
