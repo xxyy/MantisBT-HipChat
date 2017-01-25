@@ -22,7 +22,7 @@
  * or see http://www.gnu.org/licenses/.
  */
 
-$mantisbt = "<img src='https://bugs.l1t.li/images/favicon.png'>";
+$mantisbt = "<img src='https://me.l1t.li/favicon.png'>";
 $prefix = $mantisbt . '&nbsp; <b>%2$s</b>';
 $url = '<b><a href="%4$s">%3$s</a></b>';
 $text = '<br>%5$s';
