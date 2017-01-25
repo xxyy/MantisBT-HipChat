@@ -10,12 +10,12 @@ modification as well as on bug note creation and modification. I think this stil
 
 Notable differences from upstream:
 
- * works on MantisBT 1.3.x ([They changed some of their events to have BugData parameters instead of the issue id](https://www.mantisbt.org/docs/master-1.3.x/en-US/Developers_Guide/html/dev.eventref.bug.action.html))
+ * works on MantisBT 2.0.x ([They changed some of their events to have BugData parameters instead of the issue id](https://www.mantisbt.org/docs/master-1.3.x/en-US/Developers_Guide/html/dev.eventref.bug.action.html))
  * shows the new status if the status was changed instead of the generic 'bug updated' message
  * shows the new assignee if it is changed, providing fancy messages for self-assignment and unassignment
  * politely omits bug note contents from the notification if either the bug note or the issue itself are marked as private
  * does not prepend `@` to Mantis user names (this would lead to a lot of pings in HipChat, and also people might have different usernames there)
- * sends HTML messages instead of plain text ones, to show the icon
+ * sends HTML messages instead of plain text ones, to show the icon (this may not be entirely safe, should probably check how MantisBT does sanitisation)
  * cleans up some duplicated code this is important okay
  * adds a MantisBT icon, which is currently served from my own server by default - if you use this, please change the path
     in `lang/strings_en.txt` to point to your own server, and open an issue if you have a suggestion on how I could detect
