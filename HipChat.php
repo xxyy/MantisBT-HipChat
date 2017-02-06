@@ -148,7 +148,7 @@ class HipChatPlugin extends MantisPlugin {
     function bug_action($event, $action, $bug_id) {
         if ($action !== 'DELETE') {
             $bug = bug_get($bug_id);
-            $this->bug_report_update('EVENT_UPDATE_BUG', $bug, $bug_id);
+            $this->bug_update('EVENT_UPDATE_BUG', $bug, $bug);
         }
     }
 
